@@ -53,31 +53,38 @@ namespace XIoT.EventBus.Test
             {
                 timer = new TimerX((Object state) =>
                 {
-                    var time = DateTime.Now;
-                    eventbus.Publish(topic1, new EventMessage()
+                    try
                     {
-                        Action = "Test",
-                        Payload = "学无先后达者为师"
-                    });
-                    Console.WriteLine($"{time} 发送了一条消息，主题为：{topic1}");
+                        var time = DateTime.Now;
+                        eventbus.Publish(topic1, new EventMessage()
+                        {
+                            Action = "Test",
+                            Payload = "学无先后达者为师"
+                        });
+                        Console.WriteLine($"{time} 发送了一条消息，主题为：{topic1}");
 
-                    // 实体消息测试
-                    long tick = DateTime.Now.Ticks;
-                    var rd = new Random((Int32)(tick & 0xFFFFFFFFL) | (Int32)(tick >> 32));
-                    var user = new UserX()
+                        // 实体消息测试
+                        long tick = DateTime.Now.Ticks;
+                        var rd = new Random((Int32)(tick & 0xFFFFFFFFL) | (Int32)(tick >> 32));
+                        var user = new UserX()
+                        {
+                            Name = "User" + rd.Next(),
+                            DisplayName = $"{Enum.GetName(typeof(MQTypeEnum), eventbus.MQType)}_{userid++}",
+                            Code = userid.ToString().PadLeft(7, '0')
+                        };
+                        //user.SaveAsync(); // 向数据库中插入数据
+                        eventbus.PublishAsync(topic2, new EventMessage()
+                        {
+                            Action = "Insert",
+                            Payload = user.ToJson()
+                        });
+                    }
+                    catch (Exception ex)
                     {
-                        Name = "User" + rd.Next(),
-                        DisplayName = $"{Enum.GetName(typeof(MQTypeEnum), eventbus.MQType)}_{userid++}",
-                        Code = userid.ToString().PadLeft(7, '0')
-                    };
-                    user.SaveAsync(); // 向数据库中插入数据
-                    eventbus.PublishAsync(topic2, new EventMessage()
-                    {
-                        Action = "Insert",
-                        Payload = user.ToJson()
-                    });
-
-                }, null, 10, 100);
+                        XTrace.WriteException(ex);
+                        throw ex;
+                    }
+                }, null, 10, 10);
             }
             else
             {
