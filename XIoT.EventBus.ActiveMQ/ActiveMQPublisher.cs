@@ -60,12 +60,12 @@ namespace XIoT.EventBus.ActiveMQ
             try
             {
                 ITextMessage msg = producer.CreateTextMessage();
-                msg.Text = msg.ToJson();
+                msg.Text = message.ToJson();
                 foreach (var kv in message.Items)
                 {
                     msg.Properties.SetString(kv.Key, kv.Value);
                 }
-                producer.Send(message, MsgDeliveryMode.Persistent, (MsgPriority)priority, TimeSpan.MinValue); // 发送消息
+                producer.Send(msg, MsgDeliveryMode.Persistent, (MsgPriority)priority, TimeSpan.MinValue); // 发送消息
                 retryTimes = 0; // 重置失败重试次数
             }
             catch (IOException ex) {
