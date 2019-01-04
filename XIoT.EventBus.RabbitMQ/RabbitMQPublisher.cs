@@ -1,4 +1,5 @@
-﻿using NewLife.Log;
+﻿using EasyNetQ;
+using NewLife.Log;
 using NewLife.Serialization;
 using System;
 using System.Threading.Tasks;
@@ -12,16 +13,19 @@ namespace XIoT.EventBus.RabbitMQ
     public class RabbitMQPublisher : IMessagePublisher
     {
         private RabbitMQEventBus eventBus;
+        private IBus bus;
         private bool _disposed = false;
 
         public RabbitMQPublisher(IRemoteEventBus eventbus)
         {
             eventBus = eventbus as RabbitMQEventBus;
+            bus = eventBus.GetRabbitBus();
         }
 
         public void Dispose()
         {
             if (!_disposed) {
+                bus.Dispose();
                 eventBus = null;
                 _disposed = true;
             }
@@ -35,7 +39,6 @@ namespace XIoT.EventBus.RabbitMQ
         /// <param name="priority"></param>
         public void Publish(string topic, EventMessage message, MQPriority priority = MQPriority.Normal)
         {
-            var bus = eventBus.Pool.Get();
             try
             {
                 bus.Publish(message, topic);
@@ -44,9 +47,6 @@ namespace XIoT.EventBus.RabbitMQ
                 XTrace.WriteLine($"发送消息 {topic} - {message.ToJson()} 失败。");
                 XTrace.WriteException(ex);
                 throw ex;
-            }
-            finally {
-                eventBus.Pool.Put(bus);
             }
         }
 
@@ -59,7 +59,6 @@ namespace XIoT.EventBus.RabbitMQ
         /// <returns></returns>
         public async Task PublishAsync(string topic, EventMessage message, MQPriority priority = MQPriority.Normal)
         {
-            var bus = eventBus.Pool.Get();
             try
             {
                 await bus.PublishAsync(message, topic);
@@ -69,10 +68,6 @@ namespace XIoT.EventBus.RabbitMQ
                 XTrace.WriteLine($"发送消息 {topic} - {message.ToJson()} 失败。");
                 XTrace.WriteException(ex);
                 throw ex;
-            }
-            finally
-            {
-                eventBus.Pool.Put(bus);
             }
         }
     }

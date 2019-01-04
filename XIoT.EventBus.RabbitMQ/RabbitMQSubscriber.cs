@@ -16,25 +16,27 @@ namespace XIoT.EventBus.RabbitMQ
     {
         private readonly ConcurrentDictionary<String, ISubscriptionResult> consumers = new ConcurrentDictionary<string, ISubscriptionResult>();
         private RabbitMQEventBus eventBus;
+        private IBus bus;
         private Boolean _disposed = false;
 
         public RabbitMQSubscriber(IRemoteEventBus eventbus)
         {
             eventBus = eventbus as RabbitMQEventBus;
+            bus = eventBus.GetRabbitBus();
         }
         public void Dispose()
         {
             if (!_disposed) {
                 UnsubscribeAll();
-                eventBus = null;
 
+                bus.Dispose();
+                eventBus = null;
                 _disposed = true;
             }
         }
 
         public void Subscribe(string topic, EventHandler handler)
         {
-            var bus = eventBus.Pool.Get();
             try
             {
                 if (!consumers.ContainsKey(topic)) {
@@ -48,9 +50,6 @@ namespace XIoT.EventBus.RabbitMQ
                 XTrace.WriteLine($"订阅消息:{topic} 失败。");
                 XTrace.WriteException(ex);
                 throw ex;
-            }
-            finally {
-                eventBus.Pool.Put(bus);
             }
         }
 

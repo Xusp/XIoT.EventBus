@@ -70,14 +70,14 @@ namespace XIoT.EventBus.Test
                         DisplayName = $"{Enum.GetName(typeof(MQTypeEnum), eventbus.MQType)}_{userid++}",
                         Code = userid.ToString().PadLeft(7, '0')
                     };
-                    //user.SaveAsync(); // 向数据库中插入数据
+                    user.SaveAsync(); // 向数据库中插入数据
                     eventbus.PublishAsync(topic2, new EventMessage()
                     {
                         Action = "Insert",
                         Payload = user.ToJson()
                     });
 
-                }, null, 10, 1000);
+                }, null, 10, 100);
             }
             else
             {
