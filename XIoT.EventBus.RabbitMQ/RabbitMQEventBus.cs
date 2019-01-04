@@ -14,7 +14,6 @@ namespace XIoT.EventBus.RabbitMQ
     /// </summary>
     public class RabbitMQEventBus : EventBusBase, IRemoteEventBus, IDisposable
     {
-        public readonly String Exchange = $"xiot.eventbus.exchange";
         public readonly String QueuePrefix = $"XIoT.EBQ.";
 
         public RabbitMQEventBus()
@@ -25,16 +24,30 @@ namespace XIoT.EventBus.RabbitMQ
             ServerUri = setting.ServerUri.Trim();
             UserName = setting.User;
             Password = setting.Password;
+            if (setting.MQType != MQTypeEnum.RabbitMQ) {
+                setting.MQType = MQTypeEnum.RabbitMQ;
+                setting.SaveAsync();
+            }
 
             Publisher = new RabbitMQPublisher(this);
             Subscriber = new RabbitMQSubscriber(this);
+            Container.Register<IEventBus>(this); // 注册事件总线
          
             XTrace.WriteLine($"初始化消息服务 {Enum.GetName(typeof(MQTypeEnum), MQType)} 完成。");
         }
 
         #region IRemoteEventBus 接口
+        /// <summary>
+        /// 消息服务器地址，可以包括协议名称和端口号
+        /// </summary>
         public string ServerUri { get ; set; }
+        /// <summary>
+        /// 登录用户名
+        /// </summary>
         public string UserName { get; set; }
+        /// <summary>
+        /// 密码
+        /// </summary>
         public string Password { get; set; }
 
         public void Start()

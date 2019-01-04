@@ -26,7 +26,7 @@ namespace XIoT.EventBus.RabbitMQ
         {
             if (!_disposed) {
                 bus.Dispose();
-                eventBus = null;
+                eventBus.Dispose();
                 _disposed = true;
             }
         }
@@ -39,9 +39,10 @@ namespace XIoT.EventBus.RabbitMQ
         /// <param name="priority"></param>
         public void Publish(string topic, EventMessage message, MQPriority priority = MQPriority.Normal)
         {
-            try
-            {
-                bus.Publish(message, topic);
+            try {
+                bus.Publish(message, 
+                    conf => conf.WithPriority((Byte)priority)
+                                .WithTopic(topic));
             }
             catch(Exception ex) {
                 XTrace.WriteLine($"发送消息 {topic} - {message.ToJson()} 失败。");
@@ -61,7 +62,9 @@ namespace XIoT.EventBus.RabbitMQ
         {
             try
             {
-                await bus.PublishAsync(message, topic);
+                await bus.PublishAsync(message, 
+                    conf => conf.WithPriority((Byte)priority)
+                                .WithTopic(topic));
             }
             catch (Exception ex)
             {

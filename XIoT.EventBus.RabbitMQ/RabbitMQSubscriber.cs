@@ -28,9 +28,8 @@ namespace XIoT.EventBus.RabbitMQ
         {
             if (!_disposed) {
                 UnsubscribeAll();
-
                 bus.Dispose();
-                eventBus = null;
+                eventBus.Dispose();
                 _disposed = true;
             }
         }
