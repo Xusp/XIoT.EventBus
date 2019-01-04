@@ -14,6 +14,7 @@ namespace XIoT.EventBus.RabbitMQ
     /// </summary>
     public class RabbitMQEventBus : EventBusBase, IRemoteEventBus, IDisposable
     {
+        private IBus bus;
         public readonly String QueuePrefix = $"XIoT.EBQ.";
 
         public RabbitMQEventBus()
@@ -50,23 +51,26 @@ namespace XIoT.EventBus.RabbitMQ
         /// </summary>
         public string Password { get; set; }
 
-        public void Start()
-        {
+        public void Start() {
         }
 
-        public void Stop()
-        {
+        public void Stop() {
         }
-
         #endregion
 
         /// <summary>
-        /// 获取消息处理总线
+        /// 消息处理总线
         /// </summary>
         /// <returns></returns>
-        public IBus GetRabbitBus()
+        public IBus Bus 
         {
-            return RabbitHutch.CreateBus($"host={ServerUri};username={UserName};password={Password}");
+            get
+            {
+                if (bus == null) {
+                    bus = RabbitHutch.CreateBus($"host={ServerUri};username={UserName};password={Password}");
+                }
+                return bus;
+            }
         }
     }
 }

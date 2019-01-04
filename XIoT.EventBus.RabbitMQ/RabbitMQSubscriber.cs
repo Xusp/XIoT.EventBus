@@ -22,13 +22,12 @@ namespace XIoT.EventBus.RabbitMQ
         public RabbitMQSubscriber(IRemoteEventBus eventbus)
         {
             eventBus = eventbus as RabbitMQEventBus;
-            bus = eventBus.GetRabbitBus();
+            bus = eventBus.Bus;
         }
         public void Dispose()
         {
             if (!_disposed) {
                 UnsubscribeAll();
-                bus.Dispose();
                 eventBus.Dispose();
                 _disposed = true;
             }
