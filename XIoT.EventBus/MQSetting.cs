@@ -12,7 +12,7 @@ namespace XIoT.EventBus
     public class MQSetting : XmlConfig<MQSetting>
     {
         [Description("消息服务类型，默认为本地消息（可以不用设置以下几个参数）")]
-        public MQTypeEnum MQType { get; set; } = MQTypeEnum.Local;
+        public MQTypeEnum MQType { get; set; } = MQTypeEnum.ActiveMQ;
 
         [Description("服务器地址，含端口号。")]
         public String ServerUri { get; set; } = "activemq:tcp://127.0.0.1:61616";

@@ -17,6 +17,9 @@ namespace XIoT.EventBus.RabbitMQ
         private IBus bus;
         public readonly String QueuePrefix = $"XIoT.EBQ.";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RabbitMQEventBus"/> class.
+        /// </summary>
         public RabbitMQEventBus()
         {
             MQType = MQTypeEnum.RabbitMQ;
