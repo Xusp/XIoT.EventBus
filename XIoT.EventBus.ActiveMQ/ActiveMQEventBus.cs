@@ -70,7 +70,7 @@ namespace XIoT.EventBus.ActiveMQ
         {
             XTrace.WriteLine($"初始化消息服务 {Enum.GetName(typeof(MQTypeEnum), MQType)} ……");
             ServerUri = setting.ServerUri.Trim();
-            UserName = setting.User;
+            UserName = setting.UserName;
             Password = setting.Password;
             if (connectionFactory == null)
                 connectionFactory = new ConnectionFactory(ServerUri);

@@ -18,9 +18,16 @@ namespace XIoT.EventBus
         public String ServerUri { get; set; } = "activemq:tcp://127.0.0.1:61616";
         
         [Description("用户名")]
-        public String User { get; set; } = "admin";
+        public String UserName { get; set; } = "admin";
 
         [Description("登录密码")]
         public String Password { get; set; } = "admin";
+
+        [Description("AccessKey ID，访问阿里云API的密钥")]
+        public String AccessKey { get; set; } = "";
+        [Description("AccessKeySecret")]
+        public String AccessKeySecret { get; set; } = "";
+        [Description("Endpoint")]
+        public String Endpoint { get; set; } = "";
     }
 }

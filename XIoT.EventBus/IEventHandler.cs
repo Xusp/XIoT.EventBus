@@ -21,7 +21,7 @@ namespace XIoT.EventBus
         /// </summary>
         String Tag { get; set; }
         /// <summary>
-        /// 自定义项
+        /// 自定义参数项
         /// </summary>
         IDictionary<String, String> Data { get; }
         /// <summary>

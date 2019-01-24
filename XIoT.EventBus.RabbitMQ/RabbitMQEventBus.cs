@@ -26,7 +26,7 @@ namespace XIoT.EventBus.RabbitMQ
             XTrace.WriteLine($"初始化消息服务 {Enum.GetName(typeof(MQTypeEnum), MQType)} ……");
             var setting = MQSetting.Current;
             ServerUri = setting.ServerUri.Trim();
-            UserName = setting.User;
+            UserName = setting.UserName;
             Password = setting.Password;
             if (setting.MQType != MQTypeEnum.RabbitMQ) {
                 setting.MQType = MQTypeEnum.RabbitMQ;

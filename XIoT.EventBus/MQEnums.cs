@@ -11,12 +11,13 @@ namespace XIoT.EventBus
     /// </summary>
     public enum MQTypeEnum
     {
-        Local    = 1, // 本地消息
-        ActiveMQ = 2,
-        RabbitMQ = 3,
-        Redis    = 4,
-        Kafka    = 5,
-        RocketMQ = 6
+        Local     = 1, // 本地消息
+        ActiveMQ  = 2,
+        RabbitMQ  = 3,
+        Redis     = 4,
+        Kafka     = 5,
+        RocketMQ  = 6,
+        AliyunMNS = 7
     }
 
     /// <summary>
