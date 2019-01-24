@@ -59,7 +59,7 @@ namespace XIoT.EventBus.Test
                         eventbus.Publish(topic1, new EventMessage()
                         {
                             Action = "Test",
-                            Payload = "学无先后达者为师"
+                            Body = "学无先后达者为师"
                         });
                         Console.WriteLine($"{time} 发送了一条消息，主题为：{topic1}");
 
@@ -76,7 +76,7 @@ namespace XIoT.EventBus.Test
                         eventbus.PublishAsync(topic2, new EventMessage()
                         {
                             Action = "Insert",
-                            Payload = user.ToJson()
+                            Body = user.ToJson()
                         });
                     }
                     catch (Exception ex)

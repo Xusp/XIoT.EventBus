@@ -16,7 +16,7 @@ namespace XIoT.EventBus.Test
     {
         public override void Handle(EventMessage evtArgs)
         {
-            Console.WriteLine($"{evtArgs.EventTime} - {(String)evtArgs.Payload} 接收到消息， 动作名称：{evtArgs.Action}");
+            Console.WriteLine($"{evtArgs.CreateTime} - {(String)evtArgs.Body} 接收到消息， 动作名称：{evtArgs.Action}");
         }
     }
 
@@ -25,9 +25,9 @@ namespace XIoT.EventBus.Test
     {
         public override void Handle(EventMessage evtArgs)
         {
-            var user = evtArgs.Payload.ToJsonEntity<UserX>();
+            var user = evtArgs.Body.ToJsonEntity<UserX>();
             if (user != null) {
-                Console.WriteLine($"接收到消息：{evtArgs.Action}, 发送时间：{evtArgs.EventTime}");
+                Console.WriteLine($"接收到消息：{evtArgs.Action}, 发送时间：{evtArgs.CreateTime}");
                 Console.WriteLine($"Code:{user.Code}, Name:{user.Name}, DisplayName:{user.DisplayName}");
                 Console.WriteLine();
             }

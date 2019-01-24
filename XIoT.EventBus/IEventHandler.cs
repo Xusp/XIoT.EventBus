@@ -15,13 +15,20 @@ namespace XIoT.EventBus
         /// <summary>
         /// 消息体
         /// </summary>
-        String Payload { get; set; }
-
-        DateTime EventTime { get; set; }
+        String Body { get; set; }
+        /// <summary>
+        /// 消息标签
+        /// </summary>
+        String Tag { get; set; }
         /// <summary>
         /// 自定义项
         /// </summary>
-        IDictionary<String, String> Items { get; }
+        IDictionary<String, String> Data { get; }
+        /// <summary>
+        /// 消息时间
+        /// </summary>
+        /// <value>The event time.</value>
+        DateTime CreateTime { get; set; }
     }
 
     /// <summary>
@@ -31,15 +38,16 @@ namespace XIoT.EventBus
     [Serializable]
     public class EventMessage : IEventMessage
     {
-        private readonly IDictionary<String, String> items = new Dictionary<String, String>();
+        private readonly IDictionary<String, String> data = new Dictionary<String, String>();
         public String Action { get; set; }
-        public String Payload { get; set ; }
-        public DateTime EventTime { get; set; }
-        public IDictionary<String, String> Items => items;
+        public String Body { get; set ; }
+        public String Tag { get; set; }
+        public IDictionary<String, String> Data => data;
+        public DateTime CreateTime { get; set; }
 
         public EventMessage()
         {
-            EventTime = DateTime.Now;
+            CreateTime = DateTime.Now;
         }
     }
 

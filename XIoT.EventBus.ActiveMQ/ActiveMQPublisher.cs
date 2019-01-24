@@ -61,7 +61,7 @@ namespace XIoT.EventBus.ActiveMQ
             {
                 ITextMessage msg = producer.CreateTextMessage();
                 msg.Text = message.ToJson();
-                foreach (var kv in message.Items)
+                foreach (var kv in message.Data)
                 {
                     msg.Properties.SetString(kv.Key, kv.Value);
                 }
