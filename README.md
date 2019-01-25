@@ -68,7 +68,7 @@
     var topic = "XIoT/EventBus/Test";
     evtbus.Publish(topic, new EventMessage() {
         Action = "Test",
-        Payload = "学无先后达者为师"
+        Body = "学无先后达者为师"
     });
 ```
 其中，发布和订阅的消息体负载Payload采用String属性，方便通过Json序列化方式对业务需要传输的实体进行封装，也是利用这个特性实现不同消息的发布和订阅机制。Action为业务定义的动作属性。
@@ -80,7 +80,7 @@
     {
         public override void Handle(EventMessage evtArgs)
         {
-            Console.WriteLine($"{evtArgs.EventTime} - {(String)evtArgs.Payload} 接收到消息， 动作名称：{evtArgs.Action}");
+            Console.WriteLine($"{evtArgs.EventTime} - {(String)evtArgs.Body} 接收到消息， 动作名称：{evtArgs.Action}");
         }
     }
 
