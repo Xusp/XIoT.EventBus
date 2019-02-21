@@ -50,6 +50,7 @@
     <Compile Include="AliyunMNSEventBus.cs" />
     <Compile Include="AliyunMNSPublisher.cs" />
     <Compile Include="AliyunMNSSubscriber.cs" />
+    <Compile Include="ComsumerWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
