@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventBusBase.cs" />
+    <Compile Include="EventBusException.cs" />
     <Compile Include="EventHandlerBase.cs" />
     <Compile Include="IEventBus.cs" />
     <Compile Include="IMessagePublisher.cs" />
